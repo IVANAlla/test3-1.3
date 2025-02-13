@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<title>User Page</title>
+<head>
+    <meta charset="UTF-8">
+
+    <title>User Page</title>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark ">
+    <div class="container-fluid">
+        <div class="nav justify-content-start">
+            <b class="text-white"> <span class="fw-bolder " th:text="${user.login}"></span>
+                <span class="  fw-normal">with roles:</span>
+                <span class="fw-normal fs-5" th:text="${user.roles}"></span>
+            </b>
+        </div>
+        <div class="nav justify-content-end">
+            <form th:action="@{/user/logout}" method="post">
+                <button type="submit" class="btn btn-dark text-secondary">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid h-100">
+    <div class="row h-100">
+
+        <div class="p-0 col-2">
+            <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link" href="/admin/admin" sec:authorize="hasAuthority('ADMIN')" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true">Admin</a>
+                <a class="nav-link active" href="/user/user" sec:authorize="(hasAnyAuthority('ADMIN', 'USER'))"
+                   role="tab"
+                   aria-controls="v-pills-profile" aria-selected="false">User</a>
+            </div>
+        </div>
+        <div class="p-1 col-10 bg-light">
+            <h1>User information page</h1>
+            <div class="tabs p-3 bg-light">
+                <div class="card">
+                    <!--                    <div class="tab-pane fade show active" id="description">-->
+                    <div class="p-0 border">
+                        <h3 class="p-3">About user</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="tabs p-3 bg-light">
+                            <table class="usersTable table table-striped bg-white table table-hover  table-borderless">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Login</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="${user.id}"></td>
+                                    <td th:text="${user.name}"></td>
+                                    <td th:text="${user.surname}"></td>
+                                    <td th:text="${user.age}"></td>
+                                    <td th:text="${user.email}"></td>
+                                    <td th:text="${user.login}"></td>
+                                    <td>
+                                        <th:block th:each="role: ${user.roles}"
+                                                  th:text="${role} + ' '">
+                                        </th:block>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+</html>
